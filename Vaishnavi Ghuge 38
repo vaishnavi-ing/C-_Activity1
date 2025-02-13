@@ -1,0 +1,82 @@
+#include <iostream>
+#include <cstring> // For string manipulation
+
+using namespace std;
+
+class Product {
+private:
+    string name;
+    double price;
+    int quantity;
+
+public:
+    // Constructor
+    Product(string n = "", double p = 0.0, int q = 0) : name(n), price(p), quantity(q) {}
+
+    // Copy Constructor
+    Product(const Product &p) {
+        name = p.name;
+        price = p.price;
+        quantity = p.quantity;
+    }
+
+    // Display product details
+    void display() const {
+        cout << "Product: " << name << " | Price: $" << price << " | Quantity: " << quantity << endl;
+    }
+};
+
+// ShoppingCart class
+class ShoppingCart {
+private:
+    static const int MAX_PRODUCTS = 10;
+    Product products[MAX_PRODUCTS]; // Array of Product objects
+    int count;
+
+public:
+    ShoppingCart() : count(0) {}
+
+    // Add product to the cart
+    void addProduct(const Product &p) {
+        if (count < MAX_PRODUCTS) {
+            products[count] = p; // Uses copy constructor
+            count++;
+        } else {
+            cout << "Cart is full!" << endl;
+        }
+    }
+
+    // Display all products in the cart
+    void displayCart() const {
+        if (count == 0) {
+            cout << "Cart is empty!" << endl;
+            return;
+        }
+        cout << "\nShopping Cart:\n";
+        for (int i = 0; i < count; i++) {
+            products[i].display();
+        }
+    }
+};
+
+// Main function
+int main() {
+    ShoppingCart cart;
+
+    // Creating products
+    Product p1("Laptop", 999.99, 1);
+    Product p2("Smartphone", 499.99, 2);
+
+    // Adding original products
+    cart.addProduct(p1);
+    cart.addProduct(p2);
+
+    // Creating a duplicate product using the copy constructor
+    Product p3 = p1; // Copy of Laptop
+    cart.addProduct(p3);
+
+    // Display the cart
+    cart.displayCart();
+
+    return 0;
+}
